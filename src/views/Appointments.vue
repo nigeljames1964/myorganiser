@@ -45,6 +45,7 @@ export default {
     return {
       add: false,
       appointment: {
+        userId: "",
         name: "",
         description: "",
         date: "",
@@ -60,7 +61,8 @@ export default {
     save_appointment() {
       console.log("saving appointment");
       if (this.appointment.name != "" && this.appointment.date != "") {
-        this.$store.commit("addAppointment", this.appointment);
+        //this.$store.commit("addAppointment", this.appointment);
+        this.appointment.userId = localStorage.getItem("myorganiser_userid");
         this.$router.push("/appointments");
       }
     },
@@ -107,9 +109,6 @@ fa-plus {
   flex-wrap: wrap;
   justify-content: space-between;
   width: 100%;
-
-  .btn {
-  }
 }
 
 .appointment-listitem {
