@@ -1,6 +1,7 @@
 <template>
   <div class="home">
     <h2>myOrganiser</h2>
+    <h6 id="logout_link" v-if="this.$store.getters.getLoggedStatus" @click="logout">Log Out</h6>
     <Auth v-if="!this.$store.getters.getLoggedStatus" class="col-sm-12"></Auth>
     <div class="menu-links" v-else>
       <router-link to='Appointments'><button class="link-btn"><i class="fas fa-calendar-check"/>Appointments</button></router-link>
@@ -13,8 +14,8 @@
 
 <script>
 // @ is an alias to /src
-import Auth_link from "@/components/Auth-link";
 import Auth from "@/components/Auth";
+import firebase from "firebase";
 
 export default {
   name: "home",
@@ -23,7 +24,22 @@ export default {
       showAuth: true
     };
   },
-  components: { Auth_link, Auth }
+  components: { Auth },
+  methods: {
+    logout() {
+      firebase
+        .auth()
+        .signOut()
+        .then(
+          function() {},
+          function(error) {
+            console.log(error.code);
+            console.log(error.message);
+          }
+        );
+      this.$store.commit("setStatus", false);
+    }
+  }
 };
 </script>
 
@@ -61,6 +77,13 @@ export default {
 
   .fas {
     margin-right: 15px;
+  }
+
+  #logout_link {
+    margin-right: 10px;
+    text-align: right;
+    color: red;
+    cursor: pointer;
   }
 }
 </style>

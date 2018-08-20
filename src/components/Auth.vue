@@ -1,25 +1,27 @@
 <template>
   <div id="container">
-    <h6 style="margin-bottom:10px; color:red; font-weight:bold;">Please log in or register to continue</h6> <!-- add pulse animation -->
-    <div id="login" class="mt-3">
-      <h5>Login</h5>
-      <div id="login"></div>
-      <div id="form_login">
-        <input type="email" id="login_email" placeholder="email" class="mb-2" v-model="login_email" autofocus>
-        <input type="password" id="login_password" placeholder="password" v-model="login_password">
-        <h6 class="errorMsg" v-if="login_error">{{ login_error }}</h6>
-        <button id="login_btn" class="btn btn-primary mt-2 mb-2" @click="login">Log In</button>
+
+      <h6 style="margin-bottom:10px; color:red; font-weight:bold;">Please log in or register to continue</h6> <!-- add pulse animation -->
+      <div id="login" class="mt-3">
+        <h5>Login</h5>
+        <div id="login"></div>
+        <div id="form_login">
+          <input type="email" id="login_email" placeholder="email" class="mb-2" v-model="login_email" autofocus>
+          <input type="password" id="login_password" placeholder="password" v-model="login_password">
+          <h6 class="errorMsg" v-if="login_error">{{ login_error }}</h6>
+          <button id="login_btn" class="btn btn-primary mt-2 mb-2" @click="login">Log In</button>
+        </div>
       </div>
-    </div>
-    <div id="register" class="mt-3">
-      <h5>Register</h5>
-      <div id="form_register">
-        <input type="email" id="register_email" placeholder="email" class="mb-2" v-model="email">
-        <input type="password" id="register_password" placeholder="password" v-model="password">
-        <h6 class="errorMsg" v-if="register_error">{{ register_error }}</h6>
-        <button id="register_btn" class="btn btn-success mt-2 mb-2" @click="register">Register</button>
+      <div id="register" class="mt-3">
+        <h5>Register</h5>
+        <div id="form_register">
+          <input type="email" id="register_email" placeholder="email" class="mb-2" v-model="email">
+          <input type="password" id="register_password" placeholder="password" v-model="password">
+          <h6 class="errorMsg" v-if="register_error">{{ register_error }}</h6>
+          <button id="register_btn" class="btn btn-success mt-2 mb-2" @click="register">Register</button>
+        </div>
       </div>
-    </div>
+
 
   </div>
 </template>
@@ -56,7 +58,8 @@ export default {
             .auth()
             .signInWithEmailAndPassword(this.login_email, this.login_password)
             .then(() => {
-              console.log("Logged in");
+              var user = firebase.auth().currentUser;
+              localStorage.setItem("myorganiser_userId", user.uid);
               this.$store.commit("setStatus", true);
               this.$router.push("/");
             });
